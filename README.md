@@ -1,6 +1,6 @@
 # bullseye_flutter
 
-A new Flutter project.
+A Bullseye game cerated with Flutter.
 
 ## Getting Started
 
