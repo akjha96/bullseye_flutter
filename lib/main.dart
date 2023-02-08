@@ -26,7 +26,6 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  bool _alertIsVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,15 +42,14 @@ class _GamePageState extends State<GamePage> {
                   fontSize: 18),
             ),
             SizedBox(
-              width: 200,
-              height: 200,
+              width: 100,
+              height: 100,
               child: TextButton(
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.blue),
                   foregroundColor: MaterialStatePropertyAll(Colors.white70),
                 ),
                 onPressed: () {
-                  _alertIsVisible = true;
                   _showPopUp(context);
                 },
                 child: const Text(
@@ -73,8 +71,7 @@ class _GamePageState extends State<GamePage> {
     var okButton = TextButton(
       onPressed: () {
         Navigator.of(context).pop();
-        _alertIsVisible = false;
-        print('Awesome pressed! $_alertIsVisible');
+        print('Awesome pressed! ');
       },
       child: const Text('Ok'),
     );
