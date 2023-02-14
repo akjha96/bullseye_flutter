@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// custom Widgets
+import './widgets/prompt.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -43,21 +46,21 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Hi')),
+      appBar: AppBar(
+          title: const Text(
+        'Bullseye',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      )),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Bullseye',
-              style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 18),
-            ),
+            const Prompt(targetValue: 100),
             SizedBox(
-              width: 100,
-              height: 100,
+              width: 80,
               child: TextButton(
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.blue),
@@ -69,7 +72,7 @@ class _GamePageState extends State<GamePage> {
                 child: const Text(
                   'Hit Me!',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
