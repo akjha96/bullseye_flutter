@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // custom Widgets
-import './widgets/prompt.dart';
+import 'widgets/prompt/prompt.dart';
+import 'widgets/control/control.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,18 +48,20 @@ class _GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
-        'Bullseye',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
+        title: const Text(
+          'Bullseye',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-      )),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Prompt(targetValue: 100),
+            const Control(),
             SizedBox(
               width: 80,
               child: TextButton(
