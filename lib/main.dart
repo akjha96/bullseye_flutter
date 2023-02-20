@@ -1,3 +1,5 @@
+import 'package:bullseye_flutter/models/game_models/game_models.dart';
+import 'package:bullseye_flutter/widgets/score/score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -44,6 +46,14 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  late GameModel _model;
+
+  @override
+  void initState() {
+    super.initState();
+    _model = GameModel(50);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,10 +71,16 @@ class _GamePageState extends State<GamePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Prompt(targetValue: 100),
-            const Control(),
+            Control(
+              model: _model,
+            ),
+            Score(
+              totalScore: _model.totalScore,
+              round: _model.round,
+            ),
             SizedBox(
-              width: 80,
-              child: TextButton(
+              width: 100,
+              child: ElevatedButton(
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.blue),
                   foregroundColor: MaterialStatePropertyAll(Colors.white70),
@@ -91,7 +107,6 @@ class _GamePageState extends State<GamePage> {
     var okButton = TextButton(
       onPressed: () {
         Navigator.of(context).pop();
-        print('Awesome pressed! ');
       },
       child: const Text('Ok'),
     );
@@ -100,7 +115,7 @@ class _GamePageState extends State<GamePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Hello There!'),
-          content: const Text('This is my 1st popUp'),
+          content: Text('The Slider\'s value is ${_model.current}'),
           actions: [
             okButton,
           ],

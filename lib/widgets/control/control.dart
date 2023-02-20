@@ -1,32 +1,41 @@
+import 'package:bullseye_flutter/models/game_models/game_models.dart';
 import 'package:flutter/material.dart';
 
 class Control extends StatefulWidget {
-  const Control({super.key});
+  const Control({super.key, required this.model});
+
+  final GameModel model;
 
   @override
   State<Control> createState() => _ControlState();
 }
 
 class _ControlState extends State<Control> {
-  var _currentValue = 50.0;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('1'),
-        Slider(
-          value: _currentValue,
-          onChanged: (newValue) {
-            setState(() {
-              _currentValue = newValue;
-              print('current value: $_currentValue');
-            });
-          },
-          min: 1.0,
-          max: 100.0,
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text('1'),
         ),
-        const Text('100'),
+        Expanded(
+          child: Slider(
+            value: widget.model.current.toDouble(),
+            onChanged: (newValue) {
+              setState(() {
+                widget.model.current = newValue.toInt();
+              });
+            },
+            min: 1.0,
+            max: 100.0,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text('100'),
+        ),
       ],
     );
   }
