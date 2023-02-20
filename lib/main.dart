@@ -1,4 +1,11 @@
+import 'package:bullseye_flutter/models/game_models/game_models.dart';
+import 'package:bullseye_flutter/widgets/score/score.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// custom Widgets
+import 'widgets/prompt/prompt.dart';
+import 'widgets/control/control.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,6 +16,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const BullsEyeApp();
+  }
+}
+
+class BullsEyeApp extends StatelessWidget {
+  const BullsEyeApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     return MaterialApp(
         title: 'Bullseye',
         theme: ThemeData(
@@ -26,25 +46,41 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  late GameModel _model;
+
+  @override
+  void initState() {
+    super.initState();
+    _model = GameModel(50);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Hi')),
+      appBar: AppBar(
+        title: const Text(
+          'Bullseye',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Bullseye',
-              style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 18),
+            const Prompt(targetValue: 100),
+            Control(
+              model: _model,
+            ),
+            Score(
+              totalScore: _model.totalScore,
+              round: _model.round,
             ),
             SizedBox(
               width: 100,
-              height: 100,
-              child: TextButton(
+              child: ElevatedButton(
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.blue),
                   foregroundColor: MaterialStatePropertyAll(Colors.white70),
@@ -55,7 +91,7 @@ class _GamePageState extends State<GamePage> {
                 child: const Text(
                   'Hit Me!',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -71,7 +107,6 @@ class _GamePageState extends State<GamePage> {
     var okButton = TextButton(
       onPressed: () {
         Navigator.of(context).pop();
-        print('Awesome pressed! ');
       },
       child: const Text('Ok'),
     );
@@ -80,7 +115,7 @@ class _GamePageState extends State<GamePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Hello There!'),
-          content: const Text('This is my 1st popUp'),
+          content: Text('The Slider\'s value is ${_model.current}'),
           actions: [
             okButton,
           ],
