@@ -10,9 +10,9 @@ class Score extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('Round: '),
-            Text('5'),
+          children: [
+            const Text('Round: '),
+            Text('$round'),
           ],
         ),
       );
@@ -21,9 +21,9 @@ class Score extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('Score: '),
-            Text('999'),
+          children: [
+            const Text('Score: '),
+            Text('$totalScore'),
           ],
         ),
       );
