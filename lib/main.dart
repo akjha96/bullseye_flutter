@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:io' show Platform;
 
 import 'package:bullseye_flutter/models/game_models/game_models.dart';
 import 'package:bullseye_flutter/services/current_scrore/current_score.dart';
@@ -57,53 +58,59 @@ class _GamePageState extends State<GamePage> {
     _model = GameModel(Random().nextInt(100) + 1);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Bullseye',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+  Widget _buildScaffold() => Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Bullseye',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Prompt(targetValue: _model.target),
-            Control(
-              model: _model,
-            ),
-            Score(
-              totalScore: _model.totalScore,
-              round: _model.round,
-            ),
-            SizedBox(
-              width: 100,
-              child: ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                  foregroundColor: MaterialStatePropertyAll(Colors.white70),
-                ),
-                onPressed: () {
-                  _showPopUp(context);
-                },
-                child: const Text(
-                  'Hit Me!',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Prompt(targetValue: _model.target),
+              Control(
+                model: _model,
+              ),
+              Score(
+                totalScore: _model.totalScore,
+                round: _model.round,
+              ),
+              SizedBox(
+                width: 100,
+                child: ElevatedButton(
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.blue),
+                    foregroundColor: MaterialStatePropertyAll(Colors.white70),
+                  ),
+                  onPressed: () {
+                    _showPopUp(context);
+                  },
+                  child: const Text(
+                    'Hit Me!',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return Platform.isIOS
+        ? SafeArea(
+            child: _buildScaffold(),
+          )
+        : _buildScaffold();
   }
 
   int _pointsForCurrentRound() {
@@ -114,6 +121,12 @@ class _GamePageState extends State<GamePage> {
     var okButton = TextButton(
       onPressed: () {
         Navigator.of(context).pop();
+        setState(() {
+          _model.updateValues(
+            target: Random().nextInt(100) + 1,
+            totalScore: _pointsForCurrentRound(),
+          );
+        });
       },
       child: const Text('Ok'),
     );

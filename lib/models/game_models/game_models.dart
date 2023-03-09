@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class GameModel {
   GameModel(
     this.target, [
@@ -14,4 +16,11 @@ class GameModel {
   int current;
   int totalScore;
   int round;
+
+  void updateValues({required int target, required int totalScore}) {
+    this.target = target;
+    this.totalScore = totalScore;
+    current = Random().nextInt(100) + 1;
+    round += 1;
+  }
 }
