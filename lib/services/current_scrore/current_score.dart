@@ -7,11 +7,9 @@ class CurrentScore {
 
   int differenceInValue = 0;
 
-  int difference(target, currentSliderValue) {
-    differenceInValue = (target - currentSliderValue).abs();
+  int difference(target, currentSliderValue) =>
+      differenceInValue = (target - currentSliderValue).abs();
 
-    currentScore = _maximumScore - differenceInValue;
-
-    return currentScore;
-  }
+  int calculatedCurrentScore(target, currentSliderValue) =>
+      _maximumScore - difference(target, currentSliderValue);
 }
