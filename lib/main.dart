@@ -2,14 +2,15 @@ import 'dart:math';
 import 'dart:io' show Platform;
 
 import 'package:bullseye_flutter/models/game_models/game_models.dart';
+import 'package:bullseye_flutter/services/alert_title/alert_title.dart';
 import 'package:bullseye_flutter/services/current_scrore/current_score.dart';
 import 'package:bullseye_flutter/widgets/score/score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // custom Widgets
-import 'widgets/prompt/prompt.dart';
-import 'widgets/control/control.dart';
+import 'package:bullseye_flutter/widgets/game_description/game_description.dart';
+import 'package:bullseye_flutter/widgets/control/control.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,7 +73,7 @@ class _GamePageState extends State<GamePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Prompt(targetValue: _model.target),
+              GameDescription(targetValue: _model.target),
               Control(
                 model: _model,
               ),
@@ -113,30 +114,33 @@ class _GamePageState extends State<GamePage> {
         : _buildScaffold();
   }
 
-  int _pointsForCurrentRound() {
-    return CurrentScore().difference(_model.target, _model.current);
-  }
-
   void _showPopUp(BuildContext context) {
-    var okButton = TextButton(
-      onPressed: () {
-        Navigator.of(context).pop();
-        setState(() {
-          _model.updateValues(
-            target: Random().nextInt(100) + 1,
-            totalScore: _pointsForCurrentRound(),
-          );
-        });
-      },
-      child: const Text('Ok'),
+    int pointsForCurrentRound =
+        CurrentScore().calculatedCurrentScore(_model.target, _model.current);
+    int difference = CurrentScore().difference(_model.target, _model.current);
+    int totalScore = pointsForCurrentRound + _model.totalScore;
+
+    Widget okButton = Center(
+      child: TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          setState(() {
+            _model.updateValues(
+              target: Random().nextInt(100) + 1,
+              totalScore: totalScore,
+            );
+          });
+        },
+        child: const Text('Ok'),
+      ),
     );
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Hello There!'),
+          title: Text(alertTitle(difference)),
           content: Text('The Slider\'s value is ${_model.current} \n'
-              'You have scored ${_pointsForCurrentRound()} in this round!'),
+              'You have scored $pointsForCurrentRound in this round!'),
           actions: [
             okButton,
           ],
