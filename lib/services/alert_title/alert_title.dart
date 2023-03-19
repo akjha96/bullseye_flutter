@@ -1,15 +1,15 @@
-import 'package:bullseye_flutter/constants/titles/titles.dart';
+import 'package:bullseye_flutter/constants/titles/titles_constants.dart';
 
 String alertTitle(int difference) {
   String title;
   if (difference == 0) {
-    title = Titles.perfect;
+    title = TitlesConstants.perfect;
   } else if (difference <= 5) {
-    title = Titles.youAlmostHadIt;
+    title = TitlesConstants.youAlmostHadIt;
   } else if (difference <= 10) {
-    title = Titles.notBad;
+    title = TitlesConstants.notBad;
   } else {
-    title = Titles.areYouEvenTyring;
+    title = TitlesConstants.areYouEvenTyring;
   }
 
   return title;

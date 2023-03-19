@@ -1,4 +1,4 @@
-class Titles {
+class TitlesConstants {
   static const String perfect = 'Perfect!';
   static const String youAlmostHadIt = 'You Almost Had It!';
   static const String notBad = 'Not Bad.';
