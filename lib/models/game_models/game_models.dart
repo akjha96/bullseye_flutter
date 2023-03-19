@@ -17,10 +17,19 @@ class GameModel {
   int totalScore;
   int round;
 
+  int newTargetValue() => Random().nextInt(100) + 1;
+
   void updateValues({required int target, required int totalScore}) {
     this.target = target;
     this.totalScore = totalScore;
-    current = Random().nextInt(100) + 1;
+    current = newTargetValue();
     round += 1;
+  }
+
+  void reset(GameModel model) {
+    model.target = newTargetValue();
+    model.current = sliderStart;
+    model.totalScore = scoreStart;
+    model.round = roundStart;
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:io' show Platform;
 
+import 'package:bullseye_flutter/constants/buttons/buttons_constants.dart';
 import 'package:bullseye_flutter/models/game_models/game_models.dart';
 import 'package:bullseye_flutter/services/alert_title/alert_title.dart';
 import 'package:bullseye_flutter/services/current_scrore/current_score.dart';
@@ -59,6 +60,12 @@ class _GamePageState extends State<GamePage> {
     _model = GameModel(Random().nextInt(100) + 1);
   }
 
+  void _startNewGame() {
+    setState(() {
+      _model.reset(_model);
+    });
+  }
+
   Widget _buildScaffold() => Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -78,6 +85,7 @@ class _GamePageState extends State<GamePage> {
                 model: _model,
               ),
               Score(
+                onStartOver: _startNewGame,
                 totalScore: _model.totalScore,
                 round: _model.round,
               ),
@@ -126,12 +134,12 @@ class _GamePageState extends State<GamePage> {
           Navigator.of(context).pop();
           setState(() {
             _model.updateValues(
-              target: Random().nextInt(100) + 1,
+              target: _model.newTargetValue(),
               totalScore: totalScore,
             );
           });
         },
-        child: const Text('Ok'),
+        child: const Text(ButtonsConstants.awesome),
       ),
     );
     showDialog(
